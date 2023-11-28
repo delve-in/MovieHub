@@ -8,13 +8,14 @@ const seedMovie = require('./MovieData.js');
 const seedAll = async () => {
     await sequelize.sync({ force: true });
     console.log('Database Synced');
-    await seedWish();
 
     await seedUser();
 
-    await seedComment(); 
-
     await seedMovie();
+
+    await seedWish();
+
+    await seedComment(); 
 
     process.exit(0);
 };
