@@ -4,4 +4,5 @@ const { CommentRating, Movie, User, Wishlist } = require('../models');
 
 router.get('/', (req, res) => res.render('homepage'));
 
+
 module.exports = router;
