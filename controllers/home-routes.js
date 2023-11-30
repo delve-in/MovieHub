@@ -45,5 +45,24 @@ router.get('/', async (req, res) => {
 
 });
 
+router.get('/dashboard', async (req,res) => {
+    if (!req.session.loggedIn){
+        res.redirect('/login')
+    }
+    try{
+        const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
+        const refinedComments = allComments.map((comment) => comment.get({ plain: true }));
 
+
+        let loggedInOrNot = req.session.loggedIn;
+        let userNumber = req.session.user_id;
+        console.log(loggedInOrNot, userNumber);
+        res.render('dashboard', {loggedInOrNot, userNumber, refinedComments, logged_in: req.session.loggedIn});
+    
+    }catch(err){
+        console.log(err);
+    }
+
+
+})
 module.exports = router;
