@@ -5,13 +5,14 @@ const CommentRating = require('../models/CommentRating');
 const Wishlist = require('../models/Wishlist');
 
 router.get('/', async (req, res) => {
+    
     try {
         const topUrl = `https://imdb188.p.rapidapi.com/api/v1/getWeekTop10`;
         const fanUrl = 'https://imdb188.p.rapidapi.com/api/v1/getFanFavorites?country=AU';
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': '393a201c07msh989553904cb68afp196132jsnc900806e55f7',
+                'X-RapidAPI-Key': '436cdd3135msh8445120770b78e8p1081bbjsn0ccc605ad2a0',
                 'X-RapidAPI-Host': 'imdb188.p.rapidapi.com'
             }
         };
@@ -26,6 +27,9 @@ router.get('/', async (req, res) => {
         const topMovies = [];
         const fanMovies = [];
 
+        
+       
+        
         for (let i = 0; i < 5; i++) {
             const topMovieName = topFive[i].originalTitleText.text;
             const topImgUrl = topFive[i].primaryImage.imageUrl;
@@ -34,7 +38,7 @@ router.get('/', async (req, res) => {
             topMovies.push({topMovieName, topImgUrl});
             fanMovies.push({fanMovieName, fanImgUrl});
         }
-        res.status(200).json({topMovies, fanMovies});
+       res.render("homepage",{topMovies, fanMovies});
     }catch(err){
         console.log(err);
     }
