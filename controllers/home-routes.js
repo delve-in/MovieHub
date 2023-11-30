@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': '436cdd3135msh8445120770b78e8p1081bbjsn0ccc605ad2a0',
+                'X-RapidAPI-Key': HOME_API_KEY,
                 'X-RapidAPI-Host': 'imdb188.p.rapidapi.com'
             }
         };

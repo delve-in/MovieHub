@@ -13,14 +13,14 @@ router.get('/:id', async (req, res) => {
     const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': 'eb00155c14mshf8e725094566b56p172ca5jsnf5a2489f14e5',
+		'X-RapidAPI-Key': MOVIE_API_KEY,
 		'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
         }
     };
     const options2 = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': 'eb00155c14mshf8e725094566b56p172ca5jsnf5a2489f14e5',
+            'X-RapidAPI-Key': MOVIE_API_KEY,
             'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
             }
         };
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
         method: 'GET',
         headers: {
             Type: 'get-movie-details',
-            'X-RapidAPI-Key': 'eb00155c14mshf8e725094566b56p172ca5jsnf5a2489f14e5',
+            'X-RapidAPI-Key': MOVIE_API_KEY,
             'X-RapidAPI-Host': 'movies-tv-shows-database.p.rapidapi.com'
             }
         };
