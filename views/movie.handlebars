@@ -1,0 +1,38 @@
+<body>
+    <h1>{{movieTITLE}}</h1>
+    <iframe width="420" height="315"
+    src="https://www.youtube.com/embed/{{youtubeKey}}">
+    </iframe>
+
+    <img src="{{moviePoster}}" alt="Movie Poster">
+    <h3>IMDB rating</h3>
+    <p>{{imdb_rating}}</p>
+    <div id="synopsisbox">
+        <h2>Synopsis</h2>
+        <p>{{movieSynopsis}}</p>
+    </div>
+    <div id="commentsbox">
+        {{#each movieComments as |Comments|}}
+        <div class="userComments">
+            <p>{{Comments.comment}}, Posted by: {{Comments.user.username}}</p>
+        </div>
+        {{/each}}
+    </div>
+    <div id="streamingbox">
+        <h3>Streaming services to watch on:</h3>
+        {{#each summarisedServices as |Stream|}}
+            <h4>{{Stream}}</h4>
+        {{/each}}
+    </div>
+    <div id="makeComment">
+        <form id="newCommentForm">
+            <label for="newComment">Make comment on movie</label>
+            <textarea name="newComment" id="newComment" cols="150" rows="10"></textarea>
+            <button type="button">Submit</button>
+        </form>
+    </div>
+    <p>Bottom      </p>
+    <p>Of</p>
+    <p>The</p>
+    <p>Page</p>
+</body>
