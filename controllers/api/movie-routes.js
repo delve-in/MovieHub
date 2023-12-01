@@ -13,14 +13,14 @@ router.get('/:id', async (req, res) => {
     const options = {
 	method: 'GET',
 	headers: {
-		'X-RapidAPI-Key': MOVIE_API_KEY,
+		'X-RapidAPI-Key': process.env.MOVIE_API_KEY,
 		'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
         }
     };
     const options2 = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': MOVIE_API_KEY,
+            'X-RapidAPI-Key': process.env.MOVIE_API_KEY,
             'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
             }
         };
@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
         method: 'GET',
         headers: {
             Type: 'get-movie-details',
-            'X-RapidAPI-Key': MOVIE_API_KEY,
+            'X-RapidAPI-Key': process.env.MOVIE_API_KEY,
             'X-RapidAPI-Host': 'movies-tv-shows-database.p.rapidapi.com'
             }
         };
@@ -61,19 +61,23 @@ const funfunction = (allStreaming) => {
  funfunction(allStreaming);
  let summarisedServices = [...new Set(streamArray)];
 
+let movieComments = '';
 
 const getMovie = await Movie.findOne({where: {IMDB_id: req.params.id}});
+if (getMovie){
 const movieID = getMovie.id;
 const comments = await CommentRating.findAll({where: {movie_id: movieID}, include: [{model: User}]} );
-const movieComments = comments.map((comment) => comment.get({plain:true}));
-
+movieComments = comments.map((comment) => comment.get({plain:true}));
+}
 
 const movieTITLE = result2.title.title;
 const moviePoster = result2.title.image.url;
 const movieSynopsis = result2.plotSummary.text;
-console.log(movieTITLE, moviePoster, movieSynopsis);
-res.status(200).json({movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices});
+const logged_in = "";
 
+console.log(movieTITLE, moviePoster, movieSynopsis);
+// res.status(200).json({movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices});
+res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in: true});
 
     }catch(err){
         console.log(err);
