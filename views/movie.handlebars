@@ -1,10 +1,10 @@
 <body>
-    <h1>{{movieTITLE}}</h1>
+    <h1 id="movieTitle">{{movieTITLE}}</h1>
     <iframe width="420" height="315"
     src="https://www.youtube.com/embed/{{youtubeKey}}">
     </iframe>
 
-    <img src="{{moviePoster}}" alt="Movie Poster">
+    <img id="posterLink" src="{{moviePoster}}" alt="Movie Poster">
     <h3>IMDB rating</h3>
     <p>{{imdb_rating}}</p>
     <div id="synopsisbox">
@@ -28,7 +28,9 @@
         <form id="newCommentForm">
             <label for="newComment">Make comment on movie</label>
             <textarea name="newComment" id="newComment" cols="150" rows="10"></textarea>
-            <button type="button">Submit</button>
+            <label for="rating">Rating</label>
+            <input type="range" id="rating" name="rating" min="0" max="5" value="2" step="1">
+            <button id="commentBtn" type="button"">Submit</button>
         </form>
     </div>
     <p>Bottom      </p>
@@ -36,3 +38,4 @@
     <p>The</p>
     <p>Page</p>
 </body>
+<script src="/js/movie.js"></script>

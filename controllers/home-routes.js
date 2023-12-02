@@ -53,14 +53,20 @@ router.get('/dashboard', async (req,res) => {
         res.redirect('/api/user/login')
     }
     try{
-        const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
+        const allComments = await CommentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: 1}})
+
+        // const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
         const refinedComments = allComments.map((comment) => comment.get({ plain: true }));
 
 
-        let loggedInOrNot = req.session.loggedIn;
-        let userNumber = req.session.user_id;
-        console.log(loggedInOrNot, userNumber);
-        res.render('dashboard', {loggedInOrNot, userNumber, refinedComments, logged_in: req.session.loggedIn});
+        // let loggedInOrNot = req.session.loggedIn;
+        let loggedInOrNot = true;
+
+        // let userNumber = req.session.user_id;
+        let userNumber = 1;
+
+        console.log(refinedComments, loggedInOrNot, userNumber);
+        res.render('dashboard', {loggedInOrNot, userNumber, refinedComments});
     
     }catch(err){
         console.log(err);
