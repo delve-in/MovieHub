@@ -31,7 +31,7 @@ router.post('/', async (req,res) => {
         const correctedID = getID.get({ plain: true});
         const searchID  = correctedID.id;
         const newComment = await CommentRating.create({
-            user_id: req.session.user_id,
+            user_id: req.body.user_id,
             movie_id: searchID,
             comment: req.body.comment,
             rating: req.body.rating,

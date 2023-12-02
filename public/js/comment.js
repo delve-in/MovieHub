@@ -11,7 +11,7 @@ const deleteComment = async (event) =>{
             body: JSON.stringify({id: number}),
             headers: { 'Content-Type': 'application/json' },
         })
-        location.replace('/dasboard');
+        location.replace('/dashboard');
     }catch(err){
         console.log(err);
     }
