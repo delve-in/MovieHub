@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': HOME_API_KEY,
+                'X-RapidAPI-Key': process.env.HOME_API_KEY,
                 'X-RapidAPI-Host': 'imdb188.p.rapidapi.com'
             }
         };
@@ -21,6 +21,9 @@ router.get('/', async (req, res) => {
 
         const topData = await topResponse.json();
         const fanData = await fanResponse.json();
+
+        console.log(topData);
+        console.log(fanData);
 
         const topFive = topData.data;
         const fanFav = fanData.data.list;
