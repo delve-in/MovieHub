@@ -1,0 +1,16 @@
+<div>
+    <h2>Personal Dashboard</h2>
+
+    <h3>{{#if loggedInOrNot}}
+        Welcome {{refinedComments.[0].user.username}}
+        {{/if}}
+    </h3>
+
+    {{#each refinedComments as |comments|}}
+    <a href="/api/comment/{{id}}">
+    <div class="commentDiv">
+        <h3>For {{comments.movie.title}} Created on {{format_date createdAt}}</h3>
+    </div>
+    </a>
+    {{/each}}
+</div>
