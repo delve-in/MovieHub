@@ -3,13 +3,14 @@ const { User, Movie } = require('../../models');
 const CommentRating = require('../../models/CommentRating');
 
 router.get('/:id', async (req,res) => {
-    if (!req.session.loggedIn){
-        res.redirect('/login')
-    }
+    // if (!req.session.loggedIn){
+    //     res.redirect('/login')
+    // }
     try{
-        const singleComment = await CommentRating.findByPk(req.params.id);
+        const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});
         const newComment = singleComment.get({ plain: true });
-        res.status(200).redirect('/dashboard');
+        console.log(newComment);
+        res.status(200).render('comment', newComment);
     }catch(err){
         console.log(err);
     }
@@ -56,14 +57,14 @@ router.delete('/', async (req,res) => {
 router.put('/', async (req,res) =>{
     try{
         const updateComment = await CommentRating.update({
-            comment: req.body.comment
+            comment: req.body.newText
         },
         {
             where: {
                 id: req.body.id,
             },
         })
-        res.status(200).json(updateComment).redirect('/dashboard');
+        res.status(200).json(updateComment);
     }catch(err){
         console.log(err);
     }
