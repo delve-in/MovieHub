@@ -20,7 +20,7 @@ async function loginFormHandler(event) {
         });
 
         if (response.ok) {
-            document.location.replace('/dashboard');
+            window.location.href = '/';
         } else {
             alert(response.statusText);
         }

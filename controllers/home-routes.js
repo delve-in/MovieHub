@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
 
 router.get('/dashboard', async (req,res) => {
     if (!req.session.loggedIn){
-        res.redirect('/login')
+        res.redirect('/api/user/login')
     }
     try{
         const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
