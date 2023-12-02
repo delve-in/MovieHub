@@ -1,15 +1,17 @@
 const router = require('express').Router();
-const { User, Movie } = require('../../models');
+const { User, Movie, } = require('../../models');
+const Wishlist = require('../../models/Wishlist')
 const CommentRating = require('../../models/CommentRating');
 
 router.get('/:id', async (req,res) => {
-    if (!req.session.loggedIn){
-        res.redirect('/login')
-    }
+    // if (!req.session.loggedIn){
+    //     res.redirect('/login')
+    // }
     try{
-        const singleComment = await CommentRating.findByPk(req.params.id);
+        const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});
         const newComment = singleComment.get({ plain: true });
-        res.status(200).redirect('/dashboard');
+        console.log(newComment);
+        res.status(200).render('comment', newComment);
     }catch(err){
         console.log(err);
     }
@@ -30,7 +32,7 @@ router.post('/', async (req,res) => {
         const correctedID = getID.get({ plain: true});
         const searchID  = correctedID.id;
         const newComment = await CommentRating.create({
-            user_id: req.session.user_id,
+            user_id: req.body.user_id,
             movie_id: searchID,
             comment: req.body.comment,
             rating: req.body.rating,
@@ -45,7 +47,20 @@ router.post('/', async (req,res) => {
 
 router.delete('/', async (req,res) => {
     try{
-        const deleteComment = await CommentRating.destroy({ where: {id: req.body.id},});
+        const getDetails = await CommentRating.findByPk(req.body.id);
+        const refinedDetails = getDetails.get({ plain: true});
+        const movieID = refinedDetails.movie_id;
+        const checkComments = await CommentRating.findAll({ where: {movie_id: movieID}});
+        const refinedCommets = checkComments.map((comment) => comment.get({ plain: true}));
+        const checkWishlist = await Wishlist.findAll({ where: {movie_id: movieID}});
+
+
+        const deleteComment = await CommentRating.destroy({ where: {id: req.body.id}});
+
+        if ((refinedCommets.length === 1)&&(checkWishlist.length === 0)){
+            await Movie.destroy({where: {id: movieID}});
+        }
+
         console.log('Comment Deleted');
         res.status(200).json(deleteComment);
     }catch(err){
@@ -56,14 +71,14 @@ router.delete('/', async (req,res) => {
 router.put('/', async (req,res) =>{
     try{
         const updateComment = await CommentRating.update({
-            comment: req.body.comment
+            comment: req.body.newText
         },
         {
             where: {
                 id: req.body.id,
             },
         })
-        res.status(200).json(updateComment).redirect('/dashboard');
+        res.status(200).json(updateComment);
     }catch(err){
         console.log(err);
     }
