@@ -1,9 +1,10 @@
+const loginButton = document.querySelector('#loginButton');
 async function loginFormHandler(event) {
     console.log("1");
     event.preventDefault();
 
-    const email = document.querySelector('#email-login').value.trim();
-    const password = document.querySelector('#password-login').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const password = document.querySelector('#password').value.trim();
 
     if (email && password) {
         console.log("2");
@@ -20,11 +21,11 @@ async function loginFormHandler(event) {
         });
 
         if (response.ok) {
-            window.location.href = '/';
+            window.location.href = '/dashboard';
         } else {
             alert(response.statusText);
         }
     }
 }
 
-document.querySelector('.login-form').addEventListener('submit', loginFormHandler);
+loginButton.addEventListener('click', loginFormHandler);

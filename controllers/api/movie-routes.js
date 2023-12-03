@@ -77,7 +77,7 @@ const logged_in = "";
 
 console.log(movieTITLE, moviePoster, movieSynopsis);
 // res.status(200).json({movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices});
-res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in: true});
+res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in: req.session.logged_in});
 
     }catch(err){
         console.log(err);

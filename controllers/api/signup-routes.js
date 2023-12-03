@@ -2,7 +2,8 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 router.get('/', (req, res) => {
-    res.render('signup');
+    res.render('signup', {
+        logged_in: req.session.logged_in});
   });
 
 router.post('/', async (req, res) => {
