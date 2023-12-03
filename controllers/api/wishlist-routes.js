@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { commentRating, Movie, User} = require('../../models');
+const { commentRating, Movie, User, Comment} = require('../../models');
 const CommentRating = require('../../models/CommentRating');
 const Wishlist = require('../../models/Wishlist');
 
@@ -29,6 +29,20 @@ router.post('/', async (req,res) => {
             movie_id: movieID,
             user_id: req.body.user_id
         });
+
+        const checkLength = await Wishlist.findAll({where: {user_id: req.body.user_id}});
+        const cleanLength = checkLength.map((wish) => wish.get({ plain: true }));
+        if (cleanLength.length>10){
+            const wishID = cleanLength[0].id;
+            const wishMovID = cleanLength[0].movie_id;
+            const checkWishes = await Wishlist.findAll({where: {movie_id: wishMovID}});
+            const cleanWishes = checkWishes.map((wish) => wish.get({plain:true}));
+            const checkComments = await commentRating.findAll({where: {movieID: wishMovID}});
+            const cleanComments = checkComments.map((comment) => comment.get({plain:true}))
+            if ((cleanWishes.length === 1)&&(cleanComments.length === 0)){
+                await Wishlist.destroy({where: {id: wishID}})
+            }
+        }
         res.status(200).json(newWish);
     }catch(err){
         console.log(err);
