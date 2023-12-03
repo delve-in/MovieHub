@@ -1,16 +1,22 @@
 <div>
     <h2>Personal Dashboard</h2>
 
-    <h3>{{#if loggedInOrNot}}
+    <h3 id="top-Welcome" class="{{refinedComments.[0].user.id}}">{{#if loggedInOrNot}}
         Welcome {{refinedComments.[0].user.username}}
         {{/if}}
     </h3>
-
-    {{#each refinedComments as |comments|}}
-    <a href="/api/comment/{{id}}">
-    <div class="commentDiv">
-        <h3>For {{comments.movie.title}} Created on {{format_date createdAt}}</h3>
+    <div class="commentWish-container">
+        <div id="wish-list-container">
+            <ul id="wish-list">
+            </ul>
+        </div>
+        {{#each refinedComments as |comments|}}
+        <a href="/api/comment/{{id}}">
+        <div class="commentDiv">
+            <h3>For {{comments.movie.title}} Created on {{format_date createdAt}}</h3>
+        </div>
+        </a>
+        {{/each}}
     </div>
-    </a>
-    {{/each}}
 </div>
+<script src="js/dashboard.js"></script>
