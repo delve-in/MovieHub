@@ -1,41 +1,55 @@
-<body>
-    <h1 id="movieTitle">{{movieTITLE}}</h1>
-    <iframe width="420" height="315"
-    src="https://www.youtube.com/embed/{{youtubeKey}}">
-    </iframe>
+<body class="bg-gray-100 p-8 min-h-screen flex-1">
+    <div class="flex mb-4">
+        <img id="posterLink" src="{{moviePoster}}" alt="Movie Poster" class="mb-4 mx-2 w-1/2 sm:w-1/5 md:w-1/6">
 
-    <img id="posterLink" src="{{moviePoster}}" alt="Movie Poster">
-    <h3>IMDB rating</h3>
-    <p>{{imdb_rating}}</p>
-    <div id="synopsisbox">
-        <h2>Synopsis</h2>
-        <p>{{movieSynopsis}}</p>
+        <div>
+            <h1 id="movieTitle" class="text-3xl text-center font-bold mb-4">{{movieTITLE}}</h1>
+            
+            <div id="imdbRating" class="  mb-4 ml-20">
+                <h3 class="text-2xl font-bold">IMDB rating</h3>
+                <p class="text-1.7xl">{{imdb_rating}}</p>
+            </div>
+
+            <div id="synopsisbox" class=" mb-8 ml-20">
+                <h2 class=" text-2xl font-bold  mb-2">Synopsis</h2>
+                <p>{{movieSynopsis}}</p>
+            </div>
+
+            <div id="streamingbox" class="  mb-4 ml-20">
+    <h3 class=" text-2xl font-bold  mb-2">Streaming services to watch on:</h3>
+    
+    <div class="flex space-x-4">
+        {{#each summarisedServices as |Stream|}}
+            <div class="border bg-gray-200 p-2 rounded-md">
+                <h4 class="text-sm font-medium">{{Stream}}</h4>
+            </div>
+        {{/each}}
     </div>
-    <div id="commentsbox">
+</div>
+
+        </div>
+    </div>
+
+    <iframe class="mb-4" width="620" height="315" src="https://www.youtube.com/embed/{{youtubeKey}}"></iframe>
+
+    <div id="commentsbox" class="mb-4">
         {{#each movieComments as |Comments|}}
-        <div class="userComments">
-            <p>{{Comments.comment}}, Posted by: {{Comments.user.username}}</p>
+        <div class="userComments bg-gray-200 p-2 rounded-md mb-2">
+            <p class="text-sm">{{Comments.comment}}, Posted by: {{Comments.user.username}}</p>
         </div>
         {{/each}}
     </div>
-    <div id="streamingbox">
-        <h3>Streaming services to watch on:</h3>
-        {{#each summarisedServices as |Stream|}}
-            <h4>{{Stream}}</h4>
-        {{/each}}
-    </div>
-    <div id="makeComment">
+
+    <div id="makeComment" class="mb-4">
         <form id="newCommentForm">
-            <label for="newComment">Make comment on movie</label>
-            <textarea name="newComment" id="newComment" cols="150" rows="10"></textarea>
-            <label for="rating">Rating</label>
-            <input type="range" id="rating" name="rating" min="0" max="5" value="2" step="1">
-            <button id="commentBtn" type="button"">Submit</button>
+            <label for="newComment" class="block text-sm font-medium mb-2">Make comment on movie</label>
+            <textarea name="newComment" id="newComment" cols="30" rows="5" class="w-full rounded-md shadow-md mb-2"></textarea>
+            <label for="rating" class="block text-sm font-medium mb-2">Rating</label>
+            <input type="range" id="rating" name="rating" min="0" max="5" value="2" step="1" class="mb-2">
+            <button id="commentBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
         </form>
     </div>
-    <p>Bottom      </p>
-    <p>Of</p>
-    <p>The</p>
-    <p>Page</p>
+
+
+    <script src="/js/movie.js"></script>
 </body>
-<script src="/js/movie.js"></script>
