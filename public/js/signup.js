@@ -1,12 +1,14 @@
+const createButton = document.querySelector('#createButton');
+
 async function signupFormHandler(event) {
     event.preventDefault();
-
-    const username = document.querySelector('#name-signup').value.trim();
-    const email = document.querySelector('#email-signup').value.trim();
-    const password = document.querySelector('#password-signup').value.trim();
+    console.log("1.1.1");
+    const username = document.querySelector('#username').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const password = document.querySelector('#password').value.trim();
 
     if (username && email && password) {
-        const response = await fetch('/api/signup', {
+        const response = await fetch('/api/signup/', {
             method: 'POST',
             body: JSON.stringify({
                 username,
@@ -19,11 +21,11 @@ async function signupFormHandler(event) {
         });
 
         if (response.ok) {
-            window.location.href = '/';
+            window.location.href = '/dashboard';
         } else {
             alert(response.statusText);
         }
     }
 }
 
-document.querySelector('.signup-form').addEventListener('submit', signupFormHandler);
+createButton.addEventListener('click', signupFormHandler);
