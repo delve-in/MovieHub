@@ -41,7 +41,11 @@ router.get('/', async (req, res) => {
             topMovies.push({topMovieName, topImgUrl});
             fanMovies.push({fanMovieName, fanImgUrl});
         }
-       res.render("homepage",{topMovies, fanMovies});
+       res.render("homepage",{
+        topMovies, 
+        fanMovies,
+        logged_in: req.session.logged_in
+    });
     }catch(err){
         console.log(err);
     }
@@ -49,24 +53,28 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/dashboard', async (req,res) => {
-    if (!req.session.loggedIn){
+    if (!req.session.logged_in){
         res.redirect('/api/user/login')
     }
     try{
-        const allComments = await CommentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: 1}})
+        // const allComments = await CommentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: 1}})
 
-        // const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
+        const allComments = await CommentRating.findAll({include: [{model: User}], where: {user_id: req.session.user_id}})
         const refinedComments = allComments.map((comment) => comment.get({ plain: true }));
 
 
-        // let loggedInOrNot = req.session.loggedIn;
-        let loggedInOrNot = true;
+        let loggedInOrNot = req.session.logged_in;
+        // let loggedInOrNot = true;
 
-        // let userNumber = req.session.user_id;
-        let userNumber = 1;
+        let userNumber = req.session.user_id;
+        // let userNumber = 1;
 
         console.log(refinedComments, loggedInOrNot, userNumber);
-        res.render('dashboard', {loggedInOrNot, userNumber, refinedComments});
+        res.render('dashboard', {
+            loggedInOrNot, 
+            userNumber, 
+            refinedComments,
+            logged_in: req.session.logged_in});
     
     }catch(err){
         console.log(err);

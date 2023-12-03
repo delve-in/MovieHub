@@ -2,7 +2,6 @@ const createButton = document.querySelector('#createButton');
 
 async function signupFormHandler(event) {
     event.preventDefault();
-    console.log("1.1.1");
     const username = document.querySelector('#username').value.trim();
     const email = document.querySelector('#email').value.trim();
     const password = document.querySelector('#password').value.trim();
