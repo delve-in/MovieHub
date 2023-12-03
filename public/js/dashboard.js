@@ -14,7 +14,6 @@ const getWishes = async () => {
         headers: { 'Content-Type': 'application/json' }
     });
     return allWishes;
-    then((wishes) => {console.log(wishes)})
 
     }catch(err){
         console.log(err)

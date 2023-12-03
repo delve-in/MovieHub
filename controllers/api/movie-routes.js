@@ -73,11 +73,12 @@ movieComments = comments.map((comment) => comment.get({plain:true}));
 const movieTITLE = result2.title.title;
 const moviePoster = result2.title.image.url;
 const movieSynopsis = result2.plotSummary.text;
-const logged_in = "";
+let logged_in = req.session.logged_in||false;
+let userID = req.session.user_id||0;
 
 console.log(movieTITLE, moviePoster, movieSynopsis);
 // res.status(200).json({movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices});
-res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in: req.session.logged_in});
+res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in, userID});
 
     }catch(err){
         console.log(err);

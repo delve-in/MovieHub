@@ -40,8 +40,14 @@
         {{/each}}
     </div>
 
+    {{#if logged_in}}
+    <div id="newWishDiv">
+        {{!-- <button>Add Movie to wishlist<img src="/images/shooting-star.247x256.png" alt="star image" height="124" width="128"></button> --}}
+        <button type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#exampleModaly" id="modal-button2">Add Movie to wishlist<img src="/images/shooting-star.247x256.png" alt="star image" height="124" width="128"></button>
+
+    </div>
     <div id="makeComment" class="mb-4">
-        <form id="newCommentForm">
+        <form id="newCommentForm" class="{{userID}}">
             <label for="newComment" class="block text-sm font-medium mb-2">Make comment on movie</label>
             <textarea name="newComment" id="newComment" cols="30" rows="5" class="w-full rounded-md shadow-md mb-2"></textarea>
             <label for="rating" class="block text-sm font-medium mb-2">Rating</label>
@@ -49,7 +55,33 @@
             <button id="commentBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
         </form>
     </div>
+    {{else}}
+    <div>
+        <a href="/api/login"><h3>Please Login to make a comment</h3></a>
+    </div>
+    {{/if}}
 
+       {{!-- <button type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#exampleModaly" id="modal-button2">search</button> --}}
+
+
+  <div class="modal fade" id="exampleModaly" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel2">Personal Wishlist</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <ul id="wish-list">Movies</ul>
+          {{!-- ... --}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+          {{!-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
 
     <script src="/js/movie.js"></script>
 </body>
