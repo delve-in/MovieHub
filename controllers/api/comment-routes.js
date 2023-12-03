@@ -4,14 +4,17 @@ const Wishlist = require('../../models/Wishlist')
 const CommentRating = require('../../models/CommentRating');
 
 router.get('/:id', async (req,res) => {
-    // if (!req.session.loggedIn){
-    //     res.redirect('/login')
-    // }
+    if (!req.session.loggedIn){
+        res.redirect('/login')
+    }
     try{
         const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});
         const newComment = singleComment.get({ plain: true });
         console.log(newComment);
-        res.status(200).render('comment', newComment);
+        res.status(200).render('comment',{
+            newComment,
+            logged_in: req.session.logged_in
+          });
     }catch(err){
         console.log(err);
     }

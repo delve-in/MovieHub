@@ -1,27 +1,30 @@
+const createButton = document.querySelector('#createButton');
+
 async function signupFormHandler(event) {
     event.preventDefault();
+    const username = document.querySelector('#username').value.trim();
+    const email = document.querySelector('#email').value.trim();
+    const password = document.querySelector('#password').value.trim();
 
-    const username = document.querySelector('#email-signup').value.trim();
-    const password = document.querySelector('#password-signup').value.trim();
-
-    if (username && password) {
-        const response = await fetch('/api/signup', {
-            method: 'post',
+    if (username && email && password) {
+        const response = await fetch('/api/signup/', {
+            method: 'POST',
             body: JSON.stringify({
                 username,
+                email,
                 password
             }),
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
         });
 
         if (response.ok) {
-            document.location.replace('/dashboard');
+            window.location.href = '/dashboard';
         } else {
             alert(response.statusText);
         }
     }
 }
 
-document.querySelector('.signup-form').addEventListener('submit', signupFormHandler);
+createButton.addEventListener('click', signupFormHandler);
