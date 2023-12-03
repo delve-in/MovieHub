@@ -4,8 +4,8 @@ const Wishlist = require('../../models/Wishlist')
 const CommentRating = require('../../models/CommentRating');
 
 router.get('/:id', async (req,res) => {
-    if (!req.session.loggedIn){
-        res.redirect('/login')
+    if (!req.session.logged_in){
+        res.redirect('/api/signup')
     }
     try{
         const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});

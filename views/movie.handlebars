@@ -35,14 +35,13 @@
     <div id="commentsbox" class="mb-4">
         {{#each movieComments as |Comments|}}
         <div class="userComments bg-gray-200 p-2 rounded-md mb-2">
-            <p class="text-sm">{{Comments.comment}}, Posted by: {{Comments.user.username}}</p>
+            <p class="text-sm">{{Comments.comment}}, Posted by: {{Comments.user.username}}            on: {{format_date Comments.updatedAt}}</p>
         </div>
         {{/each}}
     </div>
 
     {{#if logged_in}}
     <div id="newWishDiv">
-        {{!-- <button>Add Movie to wishlist<img src="/images/shooting-star.247x256.png" alt="star image" height="124" width="128"></button> --}}
         <button type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#exampleModaly" id="modal-button2">Add Movie to wishlist<img src="/images/shooting-star.247x256.png" alt="star image" height="124" width="128"></button>
 
     </div>
@@ -60,8 +59,6 @@
         <a href="/api/login"><h3>Please Login to make a comment</h3></a>
     </div>
     {{/if}}
-
-       {{!-- <button type="button" class="btn btn-primary text-dark" data-bs-toggle="modal" data-bs-target="#exampleModaly" id="modal-button2">search</button> --}}
 
 
   <div class="modal fade" id="exampleModaly" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

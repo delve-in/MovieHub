@@ -50,11 +50,9 @@ router.get('/:id', async (req, res) => {
 const funfunction = (allStreaming) => {
     for (i=0; i < cityArray.length; i++){
     const streamingValue = Object.values(allStreaming)[i];
-    console.log(streamingValue);
     streamingValue.forEach(element => {
         let homeService = element.service;
         streamArray.push(homeService);
-        console.log(streamArray);
     });
     };
 };
@@ -76,8 +74,6 @@ const movieSynopsis = result2.plotSummary.text;
 let logged_in = req.session.logged_in||false;
 let userID = req.session.user_id||0;
 
-console.log(movieTITLE, moviePoster, movieSynopsis);
-// res.status(200).json({movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices});
 res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in, userID});
 
     }catch(err){
