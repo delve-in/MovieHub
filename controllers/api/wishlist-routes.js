@@ -39,9 +39,10 @@ router.post('/', async (req,res) => {
             const cleanWishes = checkWishes.map((wish) => wish.get({plain:true}));
             const checkComments = await commentRating.findAll({where: {movieID: wishMovID}});
             const cleanComments = checkComments.map((comment) => comment.get({plain:true}))
+            await Wishlist.destroy({where: {id: wishID}})
             if ((cleanWishes.length === 1)&&(cleanComments.length === 0)){
-                await Wishlist.destroy({where: {id: wishID}})
-            }
+                await Movie.destroy({where: {id: wishMovID}});
+            };
         }
         res.status(200).json(newWish);
     }catch(err){
