@@ -2,10 +2,11 @@ const router = require('express').Router();
 const { User, Movie, } = require('../../models');
 const Wishlist = require('../../models/Wishlist')
 const CommentRating = require('../../models/CommentRating');
+const { Sequelize } = require('sequelize');
 
 router.get('/:id', async (req,res) => {
-    if (!req.session.loggedIn){
-        res.redirect('/login')
+    if (!req.session.logged_in){
+        res.redirect('/api/signup')
     }
     try{
         const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});
@@ -87,5 +88,21 @@ router.put('/', async (req,res) =>{
     }
 
 })
+
+router.get('/avgRating/:id', async (req,res) => {
+    try{
+        const findAvg = await CommentRating.findOne({
+            where: {movie_id: req.params.id},
+            attributes: [
+                [Sequelize.fn('AVG', Sequelize.col('rating')), 'avgRating'],
+            ],
+            raw:true,
+        })
+        res.status(200).json(findAvg);
+    }catch(err){
+        console.log(err);
+    }
+})
+
 
 module.exports = router;

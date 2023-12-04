@@ -1,9 +1,9 @@
 <h2>Update / Delete Comment</h2>
-<h3>For Movie: {{movie.title}}</h3>
+<h3>For Movie: {{newComment.movie.title}}</h3>
 <div id="comment-form">
     <form id="comment">
         <label for="comment-text">Comment</label>
-        <textarea name="comment-text" id="comment-text" cols="100" rows="10">{{comment}}</textarea>
+        <textarea name="comment-text" id="comment-text" cols="100" rows="10">{{newComment.comment}}</textarea>
         <button type="button" id="upBtn">Update</button>
         <button type="button" id="delBtn">Delete</button>
     </form>
