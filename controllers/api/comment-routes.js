@@ -54,18 +54,17 @@ router.delete('/', async (req,res) => {
         const getDetails = await CommentRating.findByPk(req.body.id);
         const refinedDetails = getDetails.get({ plain: true});
         const movieID = refinedDetails.movie_id;
-        const checkComments = await CommentRating.findAll({ where: {movie_id: movieID}});
-        const refinedCommets = checkComments.map((comment) => comment.get({ plain: true}));
-        const checkWishlist = await Wishlist.findAll({ where: {movie_id: movieID}});
+        
+        const checkComments = await CommentRating.count({ where: {movie_id: movieID}});
+        const checkWishlist = await Wishlist.count({ where: {movie_id: movieID}});
 
 
         const deleteComment = await CommentRating.destroy({ where: {id: req.body.id}});
 
-        if ((refinedCommets.length === 1)&&(checkWishlist.length === 0)){
+        if ((checkComments === 1)&&(checkWishlist === 0)){
             await Movie.destroy({where: {id: movieID}});
         }
 
-        console.log('Comment Deleted');
         res.status(200).json(deleteComment);
     }catch(err){
         console.log(err)
