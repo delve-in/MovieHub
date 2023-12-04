@@ -96,7 +96,8 @@ const avgRating = async(number) =>{
             headers: { 'Content-Type': 'application/json' },
         })
         .then((res)=> res.json())
-        .then((data)=> displayRating(data))
+        .then((data)=> {
+            displayRating(data)})
     })
     
 };
@@ -113,6 +114,7 @@ const displayRating = (rating) => {
     }
 
 }
+
 avgRating(number);
 
 sliderValue.innerHTML = ratingRange.value;
