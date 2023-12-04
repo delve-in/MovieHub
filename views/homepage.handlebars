@@ -9,8 +9,10 @@
         <ul class="w-full flex flex-wrap justify-center">
             {{#each topMovies}}
             <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
-                <img src="{{this.topImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.topMovieName}} Image">
-                <p class=" font-bold movieName">{{this.topMovieName}}</p>
+                <a href="/api/movie/{{this.topID}}">
+                    <img src="{{this.topImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.topMovieName}} Image">
+                    <p class=" font-bold movieName">{{this.topMovieName}}</p>
+                </a>
             </li>
             {{/each}}
         </ul>
@@ -24,8 +26,10 @@
         <ul class="w-full flex flex-wrap justify-center">
             {{#each fanMovies}}
             <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
-                <img src="{{this.fanImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.fanMovieName}} Image">
-                <p class=" font-bold movieName">{{this.fanMovieName}}</p>
+                <a href="/api/movie/{{this.fanID}}">
+                    <img src="{{this.fanImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.fanMovieName}} Image">
+                    <p class=" font-bold movieName">{{this.fanMovieName}}</p>
+                </a>
             </li>
             {{/each}}
         </ul>
