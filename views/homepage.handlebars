@@ -1,12 +1,12 @@
 <link href="/dist/output.css" rel="stylesheet">
 <body class="bg-gray-100 p-8">
 
-    <div class="text-center mb-4">
-        <h1 class="text-3xl font-bold">Top Movies of the Week</h1>
-    </div>
+  <div class="text-center mb-4">
+    <h1 class="text-3xl font-bold">Top Movies of the Week</h1>
+  </div>
 
-    <div class=" border-black text-center flex flex-wrap movie-section" id="popularMoviesSection">
-        <ul class="w-full flex flex-wrap justify-center">
+  <div class="text-center flex flex-wrap movie-section" id="popularMoviesSection">
+     <ul class="w-full flex flex-wrap justify-center">
             {{#each topMovies}}
             <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
                 <a href="/api/movie/{{this.topID}}">
@@ -16,14 +16,16 @@
             </li>
             {{/each}}
         </ul>
-    </div>
-    <div class="div"><br><br><br></div>
-    <div class="text-center mb-4">
-        <h1 class="text-3xl font-bold">Fan Favorite Movies</h1>
-    </div>
+  </div>
 
-    <div class="flex flex-wrap -mx-4 movie-section" id="topMoviesSection">
-        <ul class="w-full flex flex-wrap justify-center">
+  <div class="div"><br><br><br></div>
+
+  <div class="text-center mb-4">
+    <h1 class="text-3xl font-bold">Fan Favorite Movies</h1>
+  </div>
+
+  <div class="flex flex-wrap -mx-4 movie-section" id="topMoviesSection">
+    <ul class="w-full flex flex-wrap justify-center">
             {{#each fanMovies}}
             <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
                 <a href="/api/movie/{{this.fanID}}">
@@ -33,7 +35,8 @@
             </li>
             {{/each}}
         </ul>
-    </div>
+  </div>
 </body>
+
 
 
