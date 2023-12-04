@@ -80,7 +80,49 @@ const newWish = async (event) => {
         });
     }
 
-    postWish(movie, user, imageLink, movTitle)
+
+const renderOrNot = (data) =>{
+    if (data > 0 ){
+        window.alert("You already have this title in your wishlist");
+        getWishes().then((res) => res.json())
+        .then((result) => renderWishes(result));
+    }
+    else{
+        postWish(movie, user, imageLink, movTitle);
+    };
+};
+
+try{
+    const countWish = await fetch(`/api/movie/getid/${number}`,{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        })
+        .then((res) => res.json())
+        .then(async (data) => {
+            if (data.movie_id === 0){
+                postWish(movie, user, imageLink, movTitle);
+                return;
+            }
+            else{
+                await fetch(`/api/wishlist/count/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        user_id: user,
+                        movie_id: data.movie_id,
+                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then((res) => res.json())
+                .then((data) => renderOrNot(data))
+            };
+        });
+}catch(err){
+    console.log(err);
+}
+
+
+
+    
 }
 
 const avgRating = async(number) =>{

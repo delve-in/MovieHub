@@ -48,6 +48,18 @@ router.post('/', async (req,res) => {
         console.log(err);
     }
 
-})
+}),
+
+router.post('/count/', async (req,res) => {
+    try{
+        const countWish = await Wishlist.count({where: {
+            user_id: req.body.user_id,
+            movie_id: req.body.movie_id
+        }})
+        res.status(200).json(countWish);
+    }catch(err){
+        console.log(err)
+    }
+});
 
 module.exports =  router;
