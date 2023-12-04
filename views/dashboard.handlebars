@@ -1,10 +1,10 @@
 <div class="bg-gray-100 p-8 flex flex-col items-center">
   <h2 class="text-3xl font-bold mb-4">Personal Dashboard</h2>
 
-  <h3 id="top-Welcome" class="{{refinedComments.[0].user.id}}">{{#if loggedInOrNot}}
-    Welcome {{refinedComments.[0].user.username}}
-    {{/if}}
-  </h3>
+  <h3 id="top-Welcome" class="{{refinedUser.id}}">{{#if loggedInOrNot}}
+        Welcome {{refinedUser.username}}
+        {{/if}}
+    </h3>
 
 
     <div id="wish-list-container" class="w-full md:w-1/3 lg:w-1/2">
