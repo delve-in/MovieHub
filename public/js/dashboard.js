@@ -1,6 +1,6 @@
-// const { Json } = require("sequelize/types/utils");
-
+const posterImage = document.getElementById('posterPic');
 const listOFWishes = document.getElementById('wish-list');
+const listItem = document.querySelector('li');
 const uID = document.getElementById('top-Welcome');
 const uIDValue = uID.className;
 const ID = parseInt(uIDValue)
@@ -34,3 +34,10 @@ getWishes().then((res) => res.json())
     });
 });
 
+listOFWishes.addEventListener(
+    "mouseout",
+    (event) => {
+     posterImage.src = event.target.classList.value;
+    },
+    false,
+  );

@@ -10,6 +10,11 @@
                 <p class="text-1.7xl">{{imdb_rating}}</p>
             </div>
 
+            <div id="movieHubRating" class="  mb-4 ml-20">
+                <h3 class="text-2xl font-bold">MovieHub rating</h3>
+                <p class="text-1.7xl" id="mHRating"></p>
+            </div>
+
             <div id="synopsisbox" class=" mb-8 ml-20">
                 <h2 class=" text-2xl font-bold  mb-2">Synopsis</h2>
                 <p>{{movieSynopsis}}</p>
@@ -50,13 +55,14 @@
             <label for="newComment" class="block text-sm font-medium mb-2">Make comment on movie</label>
             <textarea name="newComment" id="newComment" cols="30" rows="5" class="w-full rounded-md shadow-md mb-2"></textarea>
             <label for="rating" class="block text-sm font-medium mb-2">Rating</label>
-            <input type="range" id="rating" name="rating" min="0" max="5" value="2" step="1" class="mb-2">
+            <input type="range" id="rating" name="rating" min="0" max="10" value="3" step="1" class="mb-2">
+            <p>Value: <span id="sliderValue"></span></p>
             <button id="commentBtn" type="button" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
         </form>
     </div>
     {{else}}
     <div>
-        <a href="/api/login"><h3>Please Login to make a comment</h3></a>
+        <a href="/api/user/login"><h3>Please Login to make a comment</h3></a>
     </div>
     {{/if}}
 

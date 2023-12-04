@@ -2,6 +2,9 @@ const commentBtn = document.getElementById('commentBtn');
 const userNum = document.getElementById('newCommentForm').className;
 const wishBtn = document.getElementById('modal-button2');
 const wishList = document.getElementById('wish-list');
+const ratingRange = document.getElementById('rating');
+const sliderValue = document.getElementById('sliderValue');
+const mHRating = document.getElementById('mHRating');
 
 let url = window.location.href.split('/');
 let number = url[5];
@@ -16,7 +19,6 @@ const addNewComment = async (event) =>{
     event.preventDefault();
     const textForComment = document.getElementById('newComment').value;
     const ratingValue = document.getElementById('rating').value;
-
 
     await fetch('/api/comment', {
         method: 'POST',
@@ -78,8 +80,45 @@ const newWish = async (event) => {
         });
     }
 
-
     postWish(movie, user, imageLink, movTitle)
+}
+
+const avgRating = async(number) =>{
+    
+    await fetch(`/api/movie/findid/${number}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then((res) => res.json())
+    .then(async (data) => {
+        await fetch(`/api/comment/avgRating/${data.id}`,{
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        })
+        .then((res)=> res.json())
+        .then((data)=> displayRating(data))
+    })
+    
+};
+
+const displayRating = (rating) => {
+    const defaultVal = "Not yet reviewed";
+    const ratVal = rating.avgRating;
+    const ratInt = parseFloat(ratVal).toFixed(1)
+    if (ratInt>0){
+    mHRating.innerText = ratInt;
+    }
+    else{
+        mHRating.innerText = defaultVal;
+    }
+
+}
+avgRating(number);
+
+sliderValue.innerHTML = ratingRange.value;
+
+ratingRange.oninput = function(){
+    sliderValue.innerHTML = this.value;
 }
 
 commentBtn.addEventListener('click', addNewComment);

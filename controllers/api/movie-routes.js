@@ -82,4 +82,17 @@ res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_ra
     
 });
 
+router.get('/findid/:id', async (req,res) => {
+    try{
+        const movieNum = await Movie.findOne({where: {IMDB_id: req.params.id}});
+        if (movieNum){
+        const cleanNum = movieNum.get({ plain:true})
+        res.status(200).json(cleanNum);
+        }
+        res.status(200).json({avgRating: "0.0000"});
+    }catch(err){
+        console.log(err)
+    }
+})
+
 module.exports = router;
