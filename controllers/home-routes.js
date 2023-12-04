@@ -22,8 +22,8 @@ router.get('/', async (req, res) => {
         const topData = await topResponse.json();
         const fanData = await fanResponse.json();
 
-        console.log(topData);
-        console.log(fanData);
+        // console.log(topData);
+        // console.log(fanData);
 
         const topFive = topData.data;
         const fanFav = fanData.data.list;
@@ -36,10 +36,12 @@ router.get('/', async (req, res) => {
         for (let i = 0; i < 5; i++) {
             const topMovieName = topFive[i].originalTitleText.text;
             const topImgUrl = topFive[i].primaryImage.imageUrl;
+            const topID = topFive[i].id;
             const fanMovieName = fanFav[i].originalTitleText.text;
             const fanImgUrl = fanFav[i].primaryImage.imageUrl;
-            topMovies.push({topMovieName, topImgUrl});
-            fanMovies.push({fanMovieName, fanImgUrl});
+            const fanID = fanFav[i].id;
+            topMovies.push({topMovieName, topImgUrl, topID});
+            fanMovies.push({fanMovieName, fanImgUrl, fanID});
         }
        res.render("homepage",{
         topMovies, 
