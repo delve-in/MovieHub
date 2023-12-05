@@ -7,7 +7,6 @@ const wishList = require('../../models/Wishlist');
 router.get("/:id", async (req,res) => {
     const allWishes = await wishList.findAll({where: {user_id: req.params.id}, include: {model: Movie}});
     const cleanWishes = allWishes.map((wish) => wish.get({ plain: true}));
-    console.log(cleanWishes);
     res.status(200).json(allWishes);
 })
 
@@ -37,7 +36,6 @@ router.post('/', async (req,res) => {
             const wishMovID = cleanLength[0].movie_id;
             const checkWishes = await wishList.count({where: {movie_id: wishMovID}});
             const checkComments = await commentRating.count({where: {movie_id: wishMovID}});
-            // const cleanComments = checkComments.get({plain:true})
             await wishList.destroy({where: {id: wishID}})
             if ((checkWishes === 1)&&(checkComments === 0)){
                 await Movie.destroy({where: {id: wishMovID}});

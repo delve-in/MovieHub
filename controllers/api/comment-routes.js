@@ -11,7 +11,6 @@ router.get('/:id', async (req,res) => {
     try{
         const singleComment = await commentRating.findByPk(req.params.id, {include: [{model: Movie}]});
         const newComment = singleComment.get({ plain: true });
-        console.log(newComment);
         res.status(200).render('comment',{
             newComment,
             logged_in: req.session.logged_in

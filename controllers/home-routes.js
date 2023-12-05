@@ -27,8 +27,6 @@ router.get('/', async (req, res) => {
         const fanMovies = [];
 
         
-       
-        
         for (let i = 0; i < 5; i++) {
             const topMovieName = topFive[i].originalTitleText.text;
             const topImgUrl = topFive[i].primaryImage.imageUrl;
