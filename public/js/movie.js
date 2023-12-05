@@ -1,3 +1,6 @@
+// const {format_date} = require('../../utils/helper');
+// const format_date = require("../../utils/helper");
+
 const commentBtn = document.getElementById('commentBtn');
 const userNum = document.getElementById('newCommentForm').className;
 const wishBtn = document.getElementById('modal-button2');
@@ -5,6 +8,7 @@ const wishList = document.getElementById('wish-list');
 const ratingRange = document.getElementById('rating');
 const sliderValue = document.getElementById('sliderValue');
 const mHRating = document.getElementById('mHRating');
+const commentsBox = document.getElementById('commentsbox');
 
 let url = window.location.href.split('/');
 let number = url[5];
@@ -19,7 +23,15 @@ const addNewComment = async (event) =>{
     event.preventDefault();
     const textForComment = document.getElementById('newComment').value;
     const ratingValue = document.getElementById('rating').value;
-
+    if (!textForComment){
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please enter a comment to submit',
+            icon: 'question',
+            confirmButtonText: 'Okay'
+          })
+        return;
+    }
     await fetch('/api/comment', {
         method: 'POST',
         body: JSON.stringify({
@@ -31,8 +43,38 @@ const addNewComment = async (event) =>{
             rating: ratingValue }),
         headers: { 'Content-Type': 'application/json' },
     });
-    location.replace('/dashboard');
+    await fetch(`/api/comment/list/${movie}`,{
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    })
+    .then((res) => res.json())
+    .then((data) => addNewComments(data))
+
+
+    // location.replace('/dashboard');
 }
+
+
+const new_date = (date) => {
+    return `${new Date(date).getDate()}/${new Date(date).getMonth()+1}/${new Date(date).getFullYear()}`;
+};
+
+
+const addNewComments = (commentData) =>{
+    console.log(commentData);
+    commentsBox.replaceChildren();
+    for (i=0; i<commentData.length; i++){
+        const formDate = new_date(commentData[i].updatedAt)
+        const newDiv = document.createElement('div');
+        newDiv.className = "userComments bg-gray-200 p-2 rounded-md mb-2";
+        newDiv.innerHTML = `<p class="text-sm">${commentData[i].comment}, Posted by: ${commentData[i].user.username}           on: ${formDate} </p>`;
+        commentsBox.append(newDiv);
+    }
+};
+
+
+
+
 
 const newWish = async (event) => {
     event.preventDefault();
@@ -71,6 +113,7 @@ const newWish = async (event) => {
     };
 
     const renderWishes = (data) =>{
+        wishList.replaceChildren();
         data.forEach(wish => {
             const newListItem = document.createElement('li');
             newListItem.id = wish.movie.img_link;
@@ -81,16 +124,23 @@ const newWish = async (event) => {
     }
 
 
-const renderOrNot = (data) =>{
-    if (data > 0 ){
-        window.alert("You already have this title in your wishlist");
-        getWishes().then((res) => res.json())
-        .then((result) => renderWishes(result));
-    }
-    else{
-        postWish(movie, user, imageLink, movTitle);
+    const renderOrNot = (data) =>{
+        if (data > 0 ){
+            Swal.fire({
+                title: 'Already Saved',
+                text: 'You already have this title in your wishlist',
+                icon: 'warning',
+                confirmButtonText: 'Okay'
+              })
+    
+            // window.alert("You already have this title in your wishlist");
+            getWishes().then((res) => res.json())
+            .then((result) => renderWishes(result));
+        }
+        else{
+            postWish(movie, user, imageLink, movTitle);
+        };
     };
-};
 
 try{
     const countWish = await fetch(`/api/movie/getid/${number}`,{
@@ -104,12 +154,8 @@ try{
                 return;
             }
             else{
-                await fetch(`/api/wishlist/count/`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        user_id: user,
-                        movie_id: data.movie_id,
-                    }),
+                await fetch(`/api/wishlist/count/${user}/${data.movie_id}`, {
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then((res) => res.json())

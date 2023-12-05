@@ -1,4 +1,4 @@
-const createButton = document.querySelector('#createButton');
+const signupForm = document.getElementById('signup-form');
 
 async function signupFormHandler(event) {
     event.preventDefault();
@@ -27,4 +27,4 @@ async function signupFormHandler(event) {
     }
 }
 
-createButton.addEventListener('click', signupFormHandler);
+signupForm.addEventListener('submit', signupFormHandler);
