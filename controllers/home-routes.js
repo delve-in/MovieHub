@@ -55,7 +55,7 @@ router.get('/dashboard', async (req,res) => {
     try{
         let userNumber = req.session.user_id;
 
-        const allComments = await commentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: req.session.user_id}})
+        const allComments = await commentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: req.session.user_id}, order: [['id', 'desc']]})
         const refinedComments = allComments.map((comment) => comment.get({ plain: true }));
         const userdetails = await User.findOne({where: {id: req.session.user_id}})
         const refinedUser = userdetails.get({plain:true});

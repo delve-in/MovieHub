@@ -6,7 +6,7 @@ const wishList = require('../../models/Wishlist');
 
 router.get("/:id", async (req,res) => {
     try{
-    const allWishes = await wishList.findAll({where: {user_id: req.params.id}, include: {model: Movie}});
+    const allWishes = await wishList.findAll({where: {user_id: req.params.id}, include: {model: Movie}, order: [['created_at', 'desc']]});
     res.status(200).json(allWishes);
     }catch(err){
         res.status(400).json(err);
