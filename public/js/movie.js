@@ -1,5 +1,3 @@
-// const {format_date} = require('../../utils/helper');
-// const format_date = require("../../utils/helper");
 
 const commentBtn = document.getElementById('commentBtn');
 const userNum = document.getElementById('newCommentForm').className;
@@ -49,11 +47,7 @@ const addNewComment = async (event) =>{
     })
     .then((res) => res.json())
     .then((data) => addNewComments(data))
-
-
-    // location.replace('/dashboard');
 }
-
 
 const new_date = (date) => {
     return `${new Date(date).getDate()}/${new Date(date).getMonth()+1}/${new Date(date).getFullYear()}`;
@@ -61,7 +55,6 @@ const new_date = (date) => {
 
 
 const addNewComments = (commentData) =>{
-    console.log(commentData);
     commentsBox.replaceChildren();
     for (i=0; i<commentData.length; i++){
         const formDate = new_date(commentData[i].updatedAt)
@@ -132,8 +125,7 @@ const newWish = async (event) => {
                 icon: 'warning',
                 confirmButtonText: 'Okay'
               })
-    
-            // window.alert("You already have this title in your wishlist");
+
             getWishes().then((res) => res.json())
             .then((result) => renderWishes(result));
         }
