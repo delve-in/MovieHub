@@ -26,7 +26,7 @@ router.post('/', async (req,res) => {
     try{
         const checkMovie = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
         if(!checkMovie){
-            const newMovie = await Movie.create({
+                await Movie.create({
                 title: req.body.title,
                 IMDB_id: req.body.imdbID,
                 img_link: req.body.img
@@ -41,7 +41,7 @@ router.post('/', async (req,res) => {
             comment: req.body.comment,
             rating: req.body.rating,
         });
-        res.status(200).redirect(`api/movie/${IMDB}`);
+        res.status(200).json(newComment);
        
     }catch(err){
         console.log(err);
@@ -103,5 +103,16 @@ router.get('/avgRating/:id', async (req,res) => {
     }
 })
 
+router.get('/list/:id', async (req, res) => {
+    try{
+        const getMovie = await Movie.findOne({where: {IMDB_id: req.params.id}});
+        const movieID = getMovie.id;
+        const comments = await CommentRating.findAll({where: {movie_id: movieID}, include: [{model: User}]} );
+        let movieComments = comments.map((comment) => comment.get({plain:true}));
+        res.status(200).json(movieComments);
+    }catch(err){
+        console.log(err);
+    }
+})
 
 module.exports = router;
