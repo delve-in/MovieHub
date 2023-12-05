@@ -5,9 +5,12 @@ const wishList = require('../../models/Wishlist');
 
 
 router.get("/:id", async (req,res) => {
+    try{
     const allWishes = await wishList.findAll({where: {user_id: req.params.id}, include: {model: Movie}});
-    const cleanWishes = allWishes.map((wish) => wish.get({ plain: true}));
     res.status(200).json(allWishes);
+    }catch(err){
+        res.status(400).json(err);
+    }
 })
 
 router.post('/', async (req,res) => {
@@ -20,9 +23,8 @@ router.post('/', async (req,res) => {
                 img_link: req.body.img
             })
         };
-        const getID = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
-        const cleanID = getID.get({ plain: true });
-        const movieID = cleanID.id;
+        const getID = await Movie.findOne({where: {IMDB_id: req.body.imdbID}, attributes: ['id']});
+        const movieID = getID.dataValues.id;
 
         const newWish = await wishList.create({
             movie_id: movieID,
@@ -43,7 +45,7 @@ router.post('/', async (req,res) => {
         }
         res.status(200).json(newWish);
     }catch(err){
-        console.log(err);
+        res.status(400).json(err);
     }
 
 }),
@@ -55,7 +57,7 @@ router.get('/count/:user_id/:movie_id', async (req,res) => {
         movie_id: req.params.movie_id}});
     res.status(200).json(count);
     }catch(err){
-        console.log(err)
+        res.status(400).json(err);
     }
 });
 

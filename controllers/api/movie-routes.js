@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const { commentRating, Movie, User, wishlist } = require('../../models');
-const CommentRating = require('../../models/CommentRating');
-const Wishlist = require('../../models/Wishlist');
+const { Movie, User } = require('../../models');
+const commentRating = require('../../models/CommentRating');
 
 
 router.get('/:id', async (req, res) => {
@@ -47,7 +46,7 @@ router.get('/:id', async (req, res) => {
 
     let streamArray = [];
 
-const funfunction = (allStreaming) => {
+const getAllServices = (allStreaming) => {
     for (i=0; i < cityArray.length; i++){
     const streamingValue = Object.values(allStreaming)[i];
     streamingValue.forEach(element => {
@@ -56,7 +55,9 @@ const funfunction = (allStreaming) => {
     });
     };
 };
- funfunction(allStreaming);
+
+getAllServices(allStreaming);
+
  let summarisedServices = [...new Set(streamArray)];
 
 let movieComments = '';
@@ -64,7 +65,7 @@ let movieComments = '';
 const getMovie = await Movie.findOne({where: {IMDB_id: req.params.id}});
 if (getMovie){
 const movieID = getMovie.id;
-const comments = await CommentRating.findAll({where: {movie_id: movieID}, include: [{model: User}]} );
+const comments = await commentRating.findAll({where: {movie_id: movieID}, include: [{model: User}]} );
 movieComments = comments.map((comment) => comment.get({plain:true}));
 }
 
@@ -76,9 +77,9 @@ let userID = req.session.user_id||0;
 
 res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_rating, youtubeKey, movieComments, summarisedServices, logged_in, userID});
 
-    }catch(err){
-        console.log(err);
-    }
+}catch(err){
+    console.log(err);
+}
     
 });
 
