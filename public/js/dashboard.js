@@ -1,7 +1,7 @@
 const posterImage = document.getElementById('posterPic');
 const listOFWishes = document.getElementById('wish-list');
-const listItem = document.querySelector('li');
 const uID = document.getElementById('top-Welcome');
+const listItem = document.querySelector('li');
 const uIDValue = uID.className;
 const ID = parseInt(uIDValue)
 
@@ -26,12 +26,13 @@ const displayWish = (wish) => {
     listOFWishes.append(newItem);
 };
 
-getWishes().then((res) => res.json())
+getWishes()
+.then((res) => res.json())
 .then((data) => {
-    data.forEach(element => {
-        displayWish(element);
-    });
-});
+                data.forEach(element => {
+                displayWish(element);
+                    });
+                });
 
 listOFWishes.addEventListener(
     "mouseout",

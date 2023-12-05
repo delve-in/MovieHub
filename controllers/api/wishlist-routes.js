@@ -50,13 +50,12 @@ router.post('/', async (req,res) => {
 
 }),
 
-router.post('/count/', async (req,res) => {
+router.get('/count/:user_id/:movie_id', async (req,res) => {
     try{
-        const countWish = await Wishlist.count({where: {
-            user_id: req.body.user_id,
-            movie_id: req.body.movie_id
-        }})
-        res.status(200).json(countWish);
+    const count = await Wishlist.count({where: {
+        user_id: req.params.user_id, 
+        movie_id: req.params.movie_id}});
+    res.status(200).json(count);
     }catch(err){
         console.log(err)
     }

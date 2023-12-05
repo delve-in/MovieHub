@@ -154,12 +154,8 @@ try{
                 return;
             }
             else{
-                await fetch(`/api/wishlist/count/`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        user_id: user,
-                        movie_id: data.movie_id,
-                    }),
+                await fetch(`/api/wishlist/count/${user}/${data.movie_id}`, {
+                    method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then((res) => res.json())
