@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Movie, } = require('../../models');
-const Wishlist = require('../../models/Wishlist')
-const CommentRating = require('../../models/CommentRating');
+const wishList = require('../../models/Wishlist')
+const commentRating = require('../../models/CommentRating');
 const { Sequelize } = require('sequelize');
 
 router.get('/:id', async (req,res) => {
@@ -9,7 +9,7 @@ router.get('/:id', async (req,res) => {
         res.redirect('/api/signup')
     }
     try{
-        const singleComment = await CommentRating.findByPk(req.params.id, {include: [{model: Movie}]});
+        const singleComment = await commentRating.findByPk(req.params.id, {include: [{model: Movie}]});
         const newComment = singleComment.get({ plain: true });
         console.log(newComment);
         res.status(200).render('comment',{
@@ -26,7 +26,7 @@ router.post('/', async (req,res) => {
     try{
         const checkMovie = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
         if(!checkMovie){
-            const newMovie = await Movie.create({
+                await Movie.create({
                 title: req.body.title,
                 IMDB_id: req.body.imdbID,
                 img_link: req.body.img
@@ -35,13 +35,13 @@ router.post('/', async (req,res) => {
         const getID = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
         const correctedID = getID.get({ plain: true});
         const searchID  = correctedID.id;
-        const newComment = await CommentRating.create({
+        const newComment = await commentRating.create({
             user_id: req.body.user_id,
             movie_id: searchID,
             comment: req.body.comment,
             rating: req.body.rating,
         });
-        res.status(200).redirect(`api/movie/${IMDB}`);
+        res.status(200).json(newComment);
        
     }catch(err){
         console.log(err);
@@ -51,15 +51,15 @@ router.post('/', async (req,res) => {
 
 router.delete('/', async (req,res) => {
     try{
-        const getDetails = await CommentRating.findByPk(req.body.id);
+        const getDetails = await commentRating.findByPk(req.body.id);
         const refinedDetails = getDetails.get({ plain: true});
         const movieID = refinedDetails.movie_id;
         
-        const checkComments = await CommentRating.count({ where: {movie_id: movieID}});
-        const checkWishlist = await Wishlist.count({ where: {movie_id: movieID}});
+        const checkComments = await commentRating.count({ where: {movie_id: movieID}});
+        const checkWishlist = await wishList.count({ where: {movie_id: movieID}});
 
 
-        const deleteComment = await CommentRating.destroy({ where: {id: req.body.id}});
+        const deleteComment = await commentRating.destroy({ where: {id: req.body.id}});
 
         if ((checkComments === 1)&&(checkWishlist === 0)){
             await Movie.destroy({where: {id: movieID}});
@@ -73,7 +73,7 @@ router.delete('/', async (req,res) => {
 
 router.put('/', async (req,res) =>{
     try{
-        const updateComment = await CommentRating.update({
+        const updateComment = await commentRating.update({
             comment: req.body.newText
         },
         {
@@ -90,7 +90,7 @@ router.put('/', async (req,res) =>{
 
 router.get('/avgRating/:id', async (req,res) => {
     try{
-        const findAvg = await CommentRating.findOne({
+        const findAvg = await commentRating.findOne({
             where: {movie_id: req.params.id},
             attributes: [
                 [Sequelize.fn('AVG', Sequelize.col('rating')), 'avgRating'],
@@ -103,5 +103,16 @@ router.get('/avgRating/:id', async (req,res) => {
     }
 })
 
+router.get('/list/:id', async (req, res) => {
+    try{
+        const getMovie = await Movie.findOne({where: {IMDB_id: req.params.id}});
+        const movieID = getMovie.id;
+        const comments = await commentRating.findAll({where: {movie_id: movieID}, include: [{model: User}]} );
+        let movieComments = comments.map((comment) => comment.get({plain:true}));
+        res.status(200).json(movieComments);
+    }catch(err){
+        console.log(err);
+    }
+})
 
 module.exports = router;

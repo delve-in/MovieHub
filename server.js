@@ -5,6 +5,7 @@ const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const session = require('express-session');
 const helpers = require('./utils/helper')
+const Swal = require('sweetalert2')
 
 
 
@@ -41,3 +42,5 @@ sequelize.sync({ force: false })
     app.listen(PORT, () => console.log(`Now listening on port ${PORT}`));
 
 });
+
+module.exports = Swal;

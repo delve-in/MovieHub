@@ -1,8 +1,6 @@
 const router = require('express').Router();
-const sequelize = require('../config/connection');
 const { Movie, User } = require('../models');
 const CommentRating = require('../models/CommentRating');
-const Wishlist = require('../models/Wishlist');
 
 router.get('/', async (req, res) => {
     
@@ -22,8 +20,6 @@ router.get('/', async (req, res) => {
         const topData = await topResponse.json();
         const fanData = await fanResponse.json();
 
-        // console.log(topData);
-        // console.log(fanData);
 
         const topFive = topData.data;
         const fanFav = fanData.data.list;
@@ -73,11 +69,14 @@ router.get('/dashboard', async (req,res) => {
             userNumber, 
             refinedComments,
             refinedUser,
-            logged_in: req.session.logged_in});
+            logged_in: req.session.logged_in
+            });
+
     }catch(err){
         console.log(err);
     }
 
 
-})
+});
+
 module.exports = router;
