@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { commentRating, Movie, User, Comment} = require('../../models');
-const CommentRating = require('../../models/CommentRating');
-const Wishlist = require('../../models/Wishlist');
+const { User, Comment, Movie} = require('../../models');
+const commentRating = require('../../models/CommentRating');
+const wishList = require('../../models/Wishlist');
 
 
 router.get("/:id", async (req,res) => {
-    const allWishes = await Wishlist.findAll({where: {user_id: req.params.id}, include: {model: Movie}});
+    const allWishes = await wishList.findAll({where: {user_id: req.params.id}, include: {model: Movie}});
     const cleanWishes = allWishes.map((wish) => wish.get({ plain: true}));
     console.log(cleanWishes);
     res.status(200).json(allWishes);
@@ -25,20 +25,20 @@ router.post('/', async (req,res) => {
         const cleanID = getID.get({ plain: true });
         const movieID = cleanID.id;
 
-        const newWish = await Wishlist.create({
+        const newWish = await wishList.create({
             movie_id: movieID,
             user_id: req.body.user_id
         });
 
-        const checkLength = await Wishlist.findAll({where: {user_id: req.body.user_id}});
+        const checkLength = await wishList.findAll({where: {user_id: req.body.user_id}});
         const cleanLength = checkLength.map((wish) => wish.get({ plain: true }));
         if (cleanLength.length>10){
             const wishID = cleanLength[0].id;
             const wishMovID = cleanLength[0].movie_id;
-            const checkWishes = await Wishlist.count({where: {movie_id: wishMovID}});
-            const checkComments = await CommentRating.count({where: {movie_id: wishMovID}});
+            const checkWishes = await wishList.count({where: {movie_id: wishMovID}});
+            const checkComments = await commentRating.count({where: {movie_id: wishMovID}});
             // const cleanComments = checkComments.get({plain:true})
-            await Wishlist.destroy({where: {id: wishID}})
+            await wishList.destroy({where: {id: wishID}})
             if ((checkWishes === 1)&&(checkComments === 0)){
                 await Movie.destroy({where: {id: wishMovID}});
             };
@@ -52,7 +52,7 @@ router.post('/', async (req,res) => {
 
 router.get('/count/:user_id/:movie_id', async (req,res) => {
     try{
-    const count = await Wishlist.count({where: {
+    const count = await wishList.count({where: {
         user_id: req.params.user_id, 
         movie_id: req.params.movie_id}});
     res.status(200).json(count);
