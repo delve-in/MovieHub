@@ -41,7 +41,10 @@ router.get('/:id', async (req, res) => {
 
     const imdb_rating = result4.imdb_rating;
     const youtubeKey = result4.youtube_trailer_key;
-    const allStreaming = result3.result.streamingInfo;
+    let allStreaming = {};
+    console.log(result3);
+    (result3.message = "Not Found") ? allStreaming = {} : allStreaming = result3.result.streamingInfo;
+    console.log("AllStreaming" + allStreaming);
     const cityArray = (Object.keys(allStreaming));
 
     let streamArray = [];
@@ -71,7 +74,8 @@ movieComments = comments.map((comment) => comment.get({plain:true}));
 
 const movieTITLE = result2.title.title;
 const moviePoster = result2.title.image.url;
-const movieSynopsis = result2.plotSummary.text;
+let movieSynopsis = "";
+(!result2.plotSummary) ? movieSynopsis = result2.plotOutline.text : movieSynopsis = result2.plotSummary.text;
 let logged_in = req.session.logged_in||false;
 let userID = req.session.user_id||0;
 

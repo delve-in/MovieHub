@@ -67,6 +67,7 @@ router.get('/dashboard', async (req,res) => {
             userNumber, 
             refinedComments,
             refinedUser,
+            logged_in: req.session.logged_in
             });
 
     }catch(err){
