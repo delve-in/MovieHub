@@ -83,30 +83,21 @@ res.status(200).render('movie', {movieTITLE, moviePoster, movieSynopsis, imdb_ra
     
 });
 
-router.get('/findid/:id', async (req,res) => {
+router.get('/findid/:id/:callupid', async (req,res) => {
     try{
+        const callID = req.params.callupid;
         const movieNum = await Movie.findOne({where: {IMDB_id: req.params.id}});
         if (movieNum){
-        const cleanNum = movieNum.get({ plain:true})
-        res.status(200).json(cleanNum);
+        const cleanNum = await movieNum.get({ plain:true});
+        console.log("");
+        (callID === "1") ? res.status(200).json(cleanNum) : res.status(200).json({movie_id: cleanNum.id});    
         }
-        res.status(200).json({avgRating: "0.0000"});
-    }catch(err){
-        console.log(err)
-    }
-});
+        else{
+        (callID === "1") ? res.status(200).json({avgRating: "0.0000"}) : res.status(200).json({movie_id: 0});
+        }
 
-router.get('/getid/:id', async (req,res) => {
-    try{
-        const movieNum = await Movie.findOne({where: {IMDB_id: req.params.id}});
-        if (movieNum){
-        const cleanNum = movieNum.get({ plain:true})
-        const movieID = cleanNum.id;
-        res.status(200).json({movie_id: movieID});
-        }
-        res.status(200).json({movie_id: 0});
     }catch(err){
-        console.log(err)
+        res.status(400).json(err)
     }
 });
 

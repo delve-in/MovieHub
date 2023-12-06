@@ -37,11 +37,6 @@ const signUp = async (username, email, password) => {
         console.log(data);
         return;
     })
-    // if (response.ok) {
-    //     window.location.href = '/dashboard';
-    // } else {
-    //     alert(response.statusText);
-    // }
     }catch(err){
         console.log(err);
     }}

@@ -135,7 +135,7 @@ const newWish = async (event) => {
     };
 
 try{
-    const countWish = await fetch(`/api/movie/getid/${number}`,{
+    const countWish = await fetch(`/api/movie/findid/${number}/2`,{
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         })
@@ -165,7 +165,7 @@ try{
 
 const avgRating = async(number) =>{
     
-    await fetch(`/api/movie/findid/${number}`, {
+    await fetch(`/api/movie/findid/${number}/1`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     })
