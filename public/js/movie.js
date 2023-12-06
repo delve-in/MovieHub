@@ -17,10 +17,46 @@ const movie = number;
 const user = userNum;
 
 
+const new_date = (date) => {
+    return `${new Date(date).getDate()}/${new Date(date).getMonth()+1}/${new Date(date).getFullYear()}`;
+};
+
+
+const renderOrNot = (data) =>{
+    if (data > 0 ){
+        Swal.fire({
+            title: 'Already Saved',
+            text: 'You already have this title in your wishlist',
+            icon: 'warning',
+            confirmButtonText: 'Okay'
+          })
+
+        getWishes().then((res) => res.json())
+        .then((result) => renderWishes(result));
+    }
+    else{
+        postWish(movie, user, imageLink, movTitle);
+    };
+};
+
+const renderWishes = (data) =>{
+    wishList.replaceChildren();
+    data.forEach(wish => {
+        const newListItem = document.createElement('li');
+        newListItem.id = wish.movie.img_link;
+        newListItem.innerHTML +=
+        `<a href="/api/movie/${wish.movie.IMDB_id}">${wish.movie.title}</a>`;
+        wishList.append(newListItem);
+    });
+};
+
+
 const addNewComment = async (event) =>{
     event.preventDefault();
+
     const textForComment = document.getElementById('newComment').value;
     const ratingValue = document.getElementById('rating').value;
+
     if (!textForComment){
         Swal.fire({
             title: 'Error!',
@@ -46,11 +82,9 @@ const addNewComment = async (event) =>{
         headers: { 'Content-Type': 'application/json' },
     })
     .then((res) => res.json())
-    .then((data) => addNewComments(data))
-}
-
-const new_date = (date) => {
-    return `${new Date(date).getDate()}/${new Date(date).getMonth()+1}/${new Date(date).getFullYear()}`;
+    .then((data) => {
+        document.getElementById('newComment').value="";
+        addNewComments(data)})
 };
 
 
@@ -65,35 +99,7 @@ const addNewComments = (commentData) =>{
     }
 };
 
-
-
-
-
-const newWish = async (event) => {
-    event.preventDefault();
-
-    const postWish = async (movie, user, imageLink, movTitle) =>{
-        try{
-        await fetch('/api/wishlist', {
-        method: 'POST',
-        body: JSON.stringify({
-            imdbID: movie, 
-            user_id: user,
-            img: imageLink,
-            title: movTitle,
-        }),
-        headers: { 'Content-Type': 'application/json' },
-    })
-    getWishes().then((res) => res.json())
-    .then((data) => renderWishes(data));
-        
-
-    }catch(err){
-        console.log(err);
-    }
-    };
-
-    const getWishes = async () => {
+const getWishes = async () => {
     try{
     const allWishes = await fetch(`/api/wishlist/${user}`, {
         method: 'GET',
@@ -103,39 +109,36 @@ const newWish = async (event) => {
     }catch(err){
         console.log(err)
     }
-    };
+};
 
-    const renderWishes = (data) =>{
-        wishList.replaceChildren();
-        data.forEach(wish => {
-            const newListItem = document.createElement('li');
-            newListItem.id = wish.movie.img_link;
-            newListItem.innerHTML +=
-            `<a href="/api/movie/${wish.movie.IMDB_id}">${wish.movie.title}</a>`;
-            wishList.append(newListItem);
-        });
+const postWish = async (movie, user, imageLink, movTitle) =>{
+    try{
+    await fetch('/api/wishlist', {
+    method: 'POST',
+    body: JSON.stringify({
+        imdbID: movie, 
+        user_id: user,
+        img: imageLink,
+        title: movTitle,
+    }),
+    headers: { 'Content-Type': 'application/json' },
+    })
+    getWishes().then((res) => res.json())
+    .then((data) => renderWishes(data));
+        
+
+    }catch(err){
+        console.log(err);
     }
+};
 
 
-    const renderOrNot = (data) =>{
-        if (data > 0 ){
-            Swal.fire({
-                title: 'Already Saved',
-                text: 'You already have this title in your wishlist',
-                icon: 'warning',
-                confirmButtonText: 'Okay'
-              })
 
-            getWishes().then((res) => res.json())
-            .then((result) => renderWishes(result));
-        }
-        else{
-            postWish(movie, user, imageLink, movTitle);
-        };
-    };
+const newWish = async (event) => {
+    event.preventDefault();
 
 try{
-    const countWish = await fetch(`/api/movie/findid/${number}/2`,{
+        await fetch(`/api/movie/findid/${number}/2`,{
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
         })
@@ -151,17 +154,14 @@ try{
                     headers: { 'Content-Type': 'application/json' },
                 })
                 .then((res) => res.json())
-                .then((data) => renderOrNot(data))
+                .then((datanew) => renderOrNot(datanew))
             };
         });
 }catch(err){
     console.log(err);
 }
 
-
-
-    
-}
+};
 
 const avgRating = async(number) =>{
     
@@ -176,8 +176,8 @@ const avgRating = async(number) =>{
             headers: { 'Content-Type': 'application/json' },
         })
         .then((res)=> res.json())
-        .then((data)=> {
-            displayRating(data)})
+        .then((datanew)=> {
+            displayRating(datanew)})
     })
     
 };
