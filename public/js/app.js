@@ -13,7 +13,7 @@ const listOnModal = async (event) => {
 		'X-RapidAPI-Key': 'eb00155c14mshf8e725094566b56p172ca5jsnf5a2489f14e5',
 		'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
 	}
-};
+    };
 
 try {
 	const response = await fetch(url, options);

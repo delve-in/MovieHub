@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Movie, User } = require('../models');
-const CommentRating = require('../models/CommentRating');
+const commentRating = require('../models/CommentRating');
 
 router.get('/', async (req, res) => {
     
@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
         logged_in: req.session.logged_in
     });
     }catch(err){
-        console.log(err);
+        res.status(400).json(err);
     }
 
 });
@@ -55,7 +55,7 @@ router.get('/dashboard', async (req,res) => {
     try{
         let userNumber = req.session.user_id;
 
-        const allComments = await CommentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: req.session.user_id}})
+        const allComments = await commentRating.findAll({include: [{model: User}, {model: Movie}], where: {user_id: req.session.user_id}, order: [['id', 'desc']]})
         const refinedComments = allComments.map((comment) => comment.get({ plain: true }));
         const userdetails = await User.findOne({where: {id: req.session.user_id}})
         const refinedUser = userdetails.get({plain:true});
@@ -67,11 +67,10 @@ router.get('/dashboard', async (req,res) => {
             userNumber, 
             refinedComments,
             refinedUser,
-            logged_in: req.session.logged_in
             });
 
     }catch(err){
-        console.log(err);
+        res.status(400).json(err);
     }
 
 
