@@ -42,9 +42,9 @@ router.get('/:id', async (req, res) => {
     const imdb_rating = result4.imdb_rating;
     const youtubeKey = result4.youtube_trailer_key;
     let allStreaming = {};
-    console.log(result3);
-    (result3.message = "Not Found") ? allStreaming = {} : allStreaming = result3.result.streamingInfo;
-    console.log("AllStreaming" + allStreaming);
+    if (!result3.message){
+        allStreaming = result3.result.streamingInfo;
+    }
     const cityArray = (Object.keys(allStreaming));
 
     let streamArray = [];
