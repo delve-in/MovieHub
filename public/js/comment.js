@@ -11,6 +11,10 @@ const deleteComment = async (event) =>{
             body: JSON.stringify({id: number}),
             headers: { 'Content-Type': 'application/json' },
         })
+        await Swal.fire({
+            text: 'Comment deleted',
+            confirmButtonText: 'Cool'
+          })
         location.replace('/dashboard');
     }catch(err){
         console.log(err);
@@ -26,6 +30,10 @@ const updateComment = async (event) => {
             body: JSON.stringify({newText, id: number}),
             headers: { 'Content-Type': 'application/json' },
         }),
+        await Swal.fire({
+            text: 'Comment updated successfully',
+            confirmButtonText: 'Cool'
+        })
         location.replace('/dashboard');
     }catch(err){
         console.log(err);

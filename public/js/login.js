@@ -20,7 +20,13 @@ async function loginFormHandler(event) {
         if (response.ok) {
             window.location.href = '/dashboard';
         } else {
-            alert(response.statusText);
+            Swal.fire({
+                title: 'Error!',
+                text: 'The email and/or password are incorrect',
+                icon: 'error',
+                confirmButtonText: 'Okay'
+              })
+    
         }
     }
 }

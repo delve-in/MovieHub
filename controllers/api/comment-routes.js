@@ -21,7 +21,7 @@ router.get('/:id', async (req,res) => {
 });
 
 router.post('/', async (req,res) => {
-        const IMDB = req.body.imdbID;
+
     try{
         const checkMovie = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
         if(!checkMovie){
@@ -31,9 +31,8 @@ router.post('/', async (req,res) => {
                 img_link: req.body.img
             })
         }
-        const getID = await Movie.findOne({where: {IMDB_id: req.body.imdbID}});
-        const correctedID = getID.get({ plain: true});
-        const searchID  = correctedID.id;
+        const getID = await Movie.findOne({where: {IMDB_id: req.body.imdbID}, attributes: ['id']});
+        const searchID  = getID.dataValues.id;
         const newComment = await commentRating.create({
             user_id: req.body.user_id,
             movie_id: searchID,
@@ -46,7 +45,7 @@ router.post('/', async (req,res) => {
         console.log(err);
     }
 
-})
+});
 
 router.delete('/', async (req,res) => {
     try{
@@ -56,7 +55,6 @@ router.delete('/', async (req,res) => {
         
         const checkComments = await commentRating.count({ where: {movie_id: movieID}});
         const checkWishlist = await wishList.count({ where: {movie_id: movieID}});
-
 
         const deleteComment = await commentRating.destroy({ where: {id: req.body.id}});
 
@@ -84,8 +82,7 @@ router.put('/', async (req,res) =>{
     }catch(err){
         console.log(err);
     }
-
-})
+});
 
 router.get('/avgRating/:id', async (req,res) => {
     try{
@@ -100,7 +97,7 @@ router.get('/avgRating/:id', async (req,res) => {
     }catch(err){
         console.log(err);
     }
-})
+});
 
 router.get('/list/:id', async (req, res) => {
     try{
