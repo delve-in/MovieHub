@@ -6,9 +6,9 @@
   </div>
 
   <div class="text-center flex flex-wrap movie-section" id="popularMoviesSection">
-     <ul class="w-full flex flex-wrap justify-center">
+     <ul class="w-full flex flex-wrap  justify-center">
             {{#each topMovies}}
-            <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
+            <li class="mb-8 mx-2 w-1/2 sm:w-1/3 sm:mb-20 md:w-1/6">
                 <a href="/api/movie/{{this.topID}}">
                     <img src="{{this.topImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.topMovieName}} Image">
                     <p class=" font-bold movieName">{{this.topMovieName}}</p>
@@ -27,7 +27,7 @@
   <div class="flex flex-wrap -mx-4 movie-section" id="topMoviesSection">
     <ul class="w-full flex flex-wrap justify-center">
             {{#each fanMovies}}
-            <li class="mb-4 mx-2 w-1/4 sm:w-1/5 md:w-1/6">
+            <li class="mb-4 mx-2 w-1/2 sm:w-1/3 md:w-1/6">
                 <a href="/api/movie/{{this.fanID}}">
                     <img src="{{this.fanImgUrl}}" class="movieImage w-full h-full object-cover" alt="{{this.fanMovieName}} Image">
                     <p class=" font-bold movieName">{{this.fanMovieName}}</p>
