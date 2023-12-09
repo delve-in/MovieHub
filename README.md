@@ -41,7 +41,7 @@ MovieHub allows users to read and participate in discussions about movie reviews
     npm start
     ```
 
-4. Open your browser and visit [http://localhost:3000](http://localhost:3000)
+4. Open your browser and visit [https://movie-hub-1-d42d63ce0a83.herokuapp.com/](https://movie-hub-1-d42d63ce0a83.herokuapp.com/)
 ![image](https://github.com/delve-in/MovieHub/assets/138842903/beefb8dc-71ee-4e5f-845e-713550864fc3)
 
 ## Contributing
